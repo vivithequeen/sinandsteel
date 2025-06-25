@@ -27,14 +27,16 @@ const SLIDE_MUTI : float = 1.4;
 var isMoving : bool = false;
 
 var hasDashed : bool = false;
-var hasSlided : bool = false
+var hasSlided : bool = false;
+var timeOnFloor : float = 0;
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	current_amount_of_dashes = AMOUNT_OF_DASHES_MAX
 	$dashLocation.position = Vector3(0*dashDistance, 0, -1*dashDistance)
 func _physics_process(delta):
 	var speedMuti : float = 1.0;
-	speedMuti+= 0.3 if hasSlided else 0
-	speedMuti+= 0.3 if hasDashed else 0
+	speedMuti+= 0.38 if hasSlided else 0
+	speedMuti+= 0.38 if hasDashed else 0
 	# Add the gravity.
 	if !is_on_floor() && !isDashing:
 		velocity.y += -16 * delta
@@ -57,9 +59,14 @@ func _physics_process(delta):
 		$dashLocation.position = Vector3(input_dir.x*dashDistance, 0, input_dir.y*dashDistance)
 
 	if(is_on_floor()):
-		speedMuti = 1;
-		hasSlided = false;
-		hasDashed = false;
+		if(!isSliding):
+			timeOnFloor+=delta
+		if(timeOnFloor >= 0.2):
+			speedMuti = 1;
+			hasSlided = false;
+			hasDashed = false;
+	else:
+		timeOnFloor = 0
 	if direction and !isDashing:
 		isMoving = false;
 #		$fovAnimations.play("move_end")
