@@ -19,18 +19,28 @@ var dashTimer = 0;
 #slide
 var slideDirection : Vector3;
 var isSliding : bool = false;
+var current_amount_of_dashes = 0
+const AMOUNT_OF_DASHES_MAX : int = 3;
+const SLIDE_MUTI : float = 1.4;
 
+#general movement
 var isMoving : bool = false;
+
+var hasDashed : bool = false;
+var hasSlided : bool = false
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$dashLocation.position = Vector3(0*dashDistance, 0, -1*dashDistance)
 func _physics_process(delta):
+	var speedMuti : float = 1.0;
+	speedMuti+= 0.3 if hasSlided else 0
+	speedMuti+= 0.3 if hasDashed else 0
 	# Add the gravity.
 	if !is_on_floor() && !isDashing:
 		velocity.y += -16 * delta
 
 	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and (is_on_floor() or !hasJumpedTwice):
+	if Input.is_action_just_pressed("ui_accept") and (is_on_floor() or !hasJumpedTwice) and !isSliding :
 		velocity.y = JUMP_VELOCITY
 		if(!hasJumpedTwice):
 			hasJumpedTwice = true;
@@ -44,14 +54,17 @@ func _physics_process(delta):
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
 	if direction:
-
-
 		$dashLocation.position = Vector3(input_dir.x*dashDistance, 0, input_dir.y*dashDistance)
+
+	if(is_on_floor()):
+		speedMuti = 1;
+		hasSlided = false;
+		hasDashed = false;
 	if direction and !isDashing:
 		isMoving = false;
 #		$fovAnimations.play("move_end")
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
+		velocity.x = direction.x * SPEED * speedMuti
+		velocity.z = direction.z * SPEED * speedMuti
 #		velocity = clamp(velocity,velocity.length(),Vector3(MAXSPEED,0,MAXSPEED).normalized())
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
@@ -68,25 +81,38 @@ func handle_camera_move(delta : float, input_dir : Vector2):
 
 
 func handle_slide(delta : float):
-	if(Input.is_action_just_pressed("ctrl")):
+	if(Input.is_action_just_pressed("ctrl") and is_on_floor()):
+		isSliding = true;
+		hasSlided = true;
 		if(velocity * Vector3(1,0,1)):
-			slideDirection = velocity * Vector3(1,0,1);
+			slideDirection = velocity * Vector3(1,0,1) * SLIDE_MUTI;
 		else:
-			slideDirection = transform.basis*Vector3(0,0,-1) * SPEED
+			slideDirection = transform.basis*Vector3(0,0,-1) * SPEED * SLIDE_MUTI
 			
 	if(Input.is_action_pressed("ctrl")):
-		isSliding = true;
-		
+
+		pass
 	else:
 		isSliding = false;
 	
 	if(isSliding):
+		hasSlided = true;
+		if(Input.is_action_just_pressed("ui_accept") and is_on_floor()):
+			velocity.y +=JUMP_VELOCITY
+			isSliding = false;
 		velocity.x = slideDirection.x
 		velocity.z = slideDirection.z
+	$CollisionShape3D.shape.height = 1 if isSliding else 2
+	$CollisionShape3D.position.y = -0.5 if isSliding else 0.0
 	camera.position.y = 0 if isSliding else 1;
+
 func handle_dash(delta : float):
-	if(Input.is_action_just_pressed("shift")):
+	if(is_on_floor()):
+		current_amount_of_dashes = AMOUNT_OF_DASHES_MAX
+	if(Input.is_action_just_pressed("shift")) and current_amount_of_dashes >0:
+		current_amount_of_dashes-=1;
 		velocity.y = 0;
+		hasDashed =true
 		$fovAnimations.play("dash_start")
 		isDashing = true;
 		dashLocation = $dashLocation.global_position
