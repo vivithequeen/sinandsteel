@@ -5,10 +5,11 @@ const SPEED = 8.0
 const MAXSPEED = 8.0;
 const JUMP_VELOCITY = 7
 const LOOK_SENSE := 0.0025;
-
-var isDashing : bool;
-
+var dashLocation : Vector3
+var isDashing : bool = false;
+var dashSpeed : float = 30
 @onready var camera : Camera3D = $Camera3D
+
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -33,13 +34,15 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 	if(isDashing):
-		if (velocity * Vector3(1,0,1) == Vector3.ZERO):
+		global_position = lerp(global_position,dashLocation,delta*dashSpeed)
+		if is_equal_approx(global_position.x, dashLocation.x) && is_equal_approx(global_position.z, dashLocation.z):
 			isDashing = false;
+
 	if(Input.is_action_just_pressed("shift")):
 		isDashing = true;
-		var tempImpuse : Vector2 = (input_dir.normalized()*100).rotated(-rotation.y);
-		velocity.x=tempImpuse.x;
-		velocity.z=tempImpuse.y;
+		dashLocation = $dashLocation.global_position
+
+	
 	move_and_slide()
 
 
