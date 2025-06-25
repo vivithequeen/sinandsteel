@@ -59,7 +59,7 @@ func _physics_process(delta):
 		$dashLocation.position = Vector3(input_dir.x*dashDistance, 0, input_dir.y*dashDistance)
 
 	if(is_on_floor()):
-		if(!isSliding):
+		if(!isSliding and !isDashing):
 			timeOnFloor+=delta
 		if(timeOnFloor >= 0.2):
 			speedMuti = 1;
@@ -68,15 +68,17 @@ func _physics_process(delta):
 	else:
 		timeOnFloor = 0
 	if direction and !isDashing:
+		
 		isMoving = false;
 #		$fovAnimations.play("move_end")
 		velocity.x = direction.x * SPEED * speedMuti
 		velocity.z = direction.z * SPEED * speedMuti
+		
 #		velocity = clamp(velocity,velocity.length(),Vector3(MAXSPEED,0,MAXSPEED).normalized())
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
-	
+	camera.fov = (5.0/(1*(0.38+0.38)) * direction.length()*speedMuti) + 90
 
 	handle_dash(delta);
 	handle_slide(delta);
