@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://bpscq30546s0b"]
+[gd_scene load_steps=11 format=4 uid="uid://bpscq30546s0b"]
 
 [ext_resource type="Script" uid="uid://bgrtle34v1pvj" path="res://player/player.gd" id="1_oul6g"]
 [ext_resource type="Shader" uid="uid://tioqnbq80b3u" path="res://player/pixelshader.gdshader" id="2_rkbax"]
@@ -46,6 +46,9 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_5v8i5")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_rkbax"]
+radius = 1.0
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_oul6g")
@@ -103,45 +106,22 @@ cast_shadow = 0
 mesh = SubResource("ArrayMesh_qjkh3")
 skeleton = NodePath("../../..")
 
+[node name="dashCancelArea1" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="dashCancelArea1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("CylinderShape3D_rkbax")
+
 [node name="raycastleft" type="RayCast3D" parent="."]
 target_position = Vector3(-1, 0, 0)
 
 [node name="raycastright" type="RayCast3D" parent="."]
 target_position = Vector3(1, 0, 0)
 
-[node name="checkcandash" type="Node3D" parent="."]
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+autostart = true
 
-[node name="RayCast3D" type="RayCast3D" parent="checkcandash"]
-exclude_parent = false
-target_position = Vector3(1, 0, 0)
-collision_mask = 8
-
-[node name="RayCast3D2" type="RayCast3D" parent="checkcandash"]
-exclude_parent = false
-target_position = Vector3(0.7, 0, 0.7)
-collision_mask = 8
-
-[node name="RayCast3D3" type="RayCast3D" parent="checkcandash"]
-exclude_parent = false
-target_position = Vector3(0, 0, 1)
-collision_mask = 8
-
-[node name="RayCast3D5" type="RayCast3D" parent="checkcandash"]
-exclude_parent = false
-target_position = Vector3(0, 0, -1)
-collision_mask = 8
-
-[node name="RayCast3D4" type="RayCast3D" parent="checkcandash"]
-exclude_parent = false
-target_position = Vector3(-0.7, 0, 0.7)
-collision_mask = 8
-
-[node name="RayCast3D6" type="RayCast3D" parent="checkcandash"]
-exclude_parent = false
-target_position = Vector3(0.7, 0, -0.7)
-collision_mask = 8
-
-[node name="RayCast3D7" type="RayCast3D" parent="checkcandash"]
-exclude_parent = false
-target_position = Vector3(-0.7, 0, -0.7)
-collision_mask = 8
+[connection signal="body_entered" from="dashCancelArea1" to="." method="_on_dash_cancel_area_1_body_entered"]
+[connection signal="body_exited" from="dashCancelArea1" to="." method="_on_dash_cancel_area_1_body_exited"]

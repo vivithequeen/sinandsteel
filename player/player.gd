@@ -2,7 +2,7 @@ extends CharacterBody3D
 
 
 const SPEED = 12.0
-const MAXSPEED = 8.0;
+const MAXSPEED = 16;
 const JUMP_VELOCITY = 8
 const LOOK_SENSE := 0.0025;
 const dashDistance := 14;
@@ -15,7 +15,7 @@ var dashLocation : Vector3
 var isDashing : bool = false;
 var dashSpeed : float = 1.54;
 var dashTimer = 0;
-var isAbleToDash : bool = true;
+
 
 #slide
 var slideDirection : Vector3;
@@ -45,11 +45,12 @@ var wallRunTimer : float = 0
 func _ready():
 	$Camera3D/pixelfilter.size = get_viewport().size
 	print( get_viewport().size)
-	isAbleToDash = true;
+
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	current_amount_of_dashes = AMOUNT_OF_DASHES_MAX
 	$dashLocation.position = Vector3(0*dashDistance, 0, -1*dashDistance)
 func _physics_process(delta):
+
 	if(wallRunTimer>=0):
 		wallRunTimer-=delta
 	var speedMuti : float = 1.0;
@@ -79,7 +80,7 @@ func _physics_process(delta):
 	var input_dir = Input.get_vector("left", "right", "up", "down")
 
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	
+	$Camera3D/temp_ui/Label2.text = str(checkIfCanDash())
 	if direction:
 		$dashLocation.position = Vector3(input_dir.x*dashDistance, 0, input_dir.y*dashDistance)
 	if(timeOnFloor >= 0.35 && (is_on_floor()||input_dir.x == 0)):
@@ -107,15 +108,30 @@ func _physics_process(delta):
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 
 	currentSpeedFov = 90 + (6 if hasSlided else 0) + (6 if hasDashed else 0) +(6 if hasWallRun else 0)+ (15 if input_dir.y !=0 else 0)
-
+	if(!checkIfCanDash()):
+		if(isDashing):
+			isDashing = false;
+			dashTimer = 0
+			endDashFov()
 	if(!isDashing):
 		runFov();
 		straftCameraTurn(input_dir)
 	handle_dash(delta);
 	handle_slide(delta);
 	handle_wallrun(delta)
+	weaponHold(delta,input_dir)
+	
+	#velocity.x = clamp(velocity.x,-MAXSPEED,MAXSPEED)
+	#velocity.z = clamp(velocity.z,-MAXSPEED,MAXSPEED)
+	
 	move_and_slide()
 
+func weaponHold(delta,input_dir):
+	var tween = get_tree().create_tween()
+	
+	tween.parallel().tween_property($Camera3D/holdingThing,"position:y",sin(headbobTimer)*0.02  + -0.23 + (0 if velocity.y<0 else -0.025) + (0 if velocity.y>0 else 0.025), 0.7)
+	tween.parallel().tween_property($Camera3D/holdingThing,"rotation:z",input_dir.x*-deg_to_rad(9.5) *(-1 if isWallRunning else 1),0.5)
+	tween.parallel().tween_property($Camera3D/holdingThing,"position:z",(0.15 if input_dir.y==1 else 0),0.5)
 func headbob(delta):
 	if(velocity.x + velocity.z != 0):
 		headbobTimer += delta * headbobSpeed 
@@ -123,8 +139,7 @@ func headbob(delta):
 		headbobTimer = 0;
 	var tween = get_tree().create_tween()
 	tween.tween_property(camera,"position:y",sin(headbobTimer) * headbobLength + 1,0.1)
-	var tween2 = get_tree().create_tween()
-	tween2.tween_property($Camera3D/holdingThing,"position:y",sin(headbobTimer) * 0.1 + 0.5, 0.1)
+
 
 
 func handle_wallrun(delta : float):
@@ -179,7 +194,7 @@ func handle_slide(delta : float):
 func handle_dash(delta : float):
 	if(is_on_floor()):
 		current_amount_of_dashes = AMOUNT_OF_DASHES_MAX
-	if(Input.is_action_just_pressed("shift")) and current_amount_of_dashes >0 and isAbleToDash:
+	if(Input.is_action_just_pressed("shift")) and current_amount_of_dashes >0 and checkIfCanDash():
 		current_amount_of_dashes-=1;
 		velocity.y = 0;
 		hasDashed =true
@@ -194,6 +209,11 @@ func handle_dash(delta : float):
 			dashTimer = 0
 			isDashing = false;
 
+func checkIfCanDash() ->bool:
+	for i in $checkcandash.get_children():
+		if(i.is_colliding()):
+			return false;
+	return true;
 func straftCameraTurn(input_dir : Vector2):
 	if(!isDashing and !isSliding):
 		var tween = get_tree().create_tween()
@@ -219,28 +239,3 @@ func _input(event):
 		#camera.rotation.x = clamp(camera.rotation.x, -PI/2 ,PI/2)
 		camera.rotation.x = clamp(camera.rotation.x,-PI/2,PI/2)
 		
-
-
-
-func _on_dash_cancel_area_2_body_entered(body):
-
-	isDashing = false;
-	dashTimer = 0
-	endDashFov()
-
-
-func _on_dash_cancel_area_1_body_entered(body):
-	isAbleToDash = false
-	isDashing = false;
-	dashTimer = 0
-	endDashFov()
-
-
-
-
-func _on_dash_cancel_area_1_body_exited(body):
-	isAbleToDash = true
-
-
-func _on_timer_timeout():
-	isAbleToDash = true;
