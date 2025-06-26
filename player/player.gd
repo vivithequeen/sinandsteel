@@ -29,6 +29,7 @@ var isMoving : bool = false;
 var hasDashed : bool = false;
 var hasSlided : bool = false;
 var timeOnFloor : float = 0;
+var currentSpeedFov : float = 0;
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	current_amount_of_dashes = AMOUNT_OF_DASHES_MAX
@@ -61,7 +62,7 @@ func _physics_process(delta):
 	if(is_on_floor()):
 		if(!isSliding and !isDashing):
 			timeOnFloor+=delta
-		if(timeOnFloor >= 0.2):
+		if(timeOnFloor >= 0.35):
 			speedMuti = 1;
 			hasSlided = false;
 			hasDashed = false;
@@ -78,10 +79,15 @@ func _physics_process(delta):
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
-	camera.fov = (5.0/(1*(0.38+0.38)) * direction.length()*speedMuti) + 90
 
+	currentSpeedFov = 90 + (10 if hasSlided else 0) + (10 if hasDashed else 0) + (15 if input_dir.y !=0 else 0)
+
+	if(!isDashing):
+		runFov();
+		straftCameraTurn(input_dir)
 	handle_dash(delta);
 	handle_slide(delta);
+	$temp_ui/Label.text = "FOV: " + str(camera.fov)
 	move_and_slide()
 
 func handle_camera_move(delta : float, input_dir : Vector2):
@@ -122,17 +128,33 @@ func handle_dash(delta : float):
 		current_amount_of_dashes-=1;
 		velocity.y = 0;
 		hasDashed =true
-		$fovAnimations.play("dash_start")
+		startDashFov()
 		isDashing = true;
 		dashLocation = $dashLocation.global_position
 	if(isDashing):
 		dashTimer+=delta*dashSpeed
 		global_position = global_position.lerp(dashLocation,dashTimer)
 		if (dashTimer>=0.99):
-			$fovAnimations.play("dash_end")
+			endDashFov()
 			dashTimer = 0
 			isDashing = false;
 
+func straftCameraTurn(input_dir : Vector2):
+	var tween = get_tree().create_tween()
+	tween.tween_property(camera,"rotation:z",input_dir.x*-deg_to_rad(7.5),0.5)
+
+func runFov():
+	var tween = get_tree().create_tween()
+	tween.tween_property(camera,"fov",currentSpeedFov,0.3)
+
+
+func endDashFov():
+	var tween = get_tree().create_tween()
+	tween.tween_property(camera,"fov",currentSpeedFov,0.1)
+
+func startDashFov():
+	var tween = get_tree().create_tween()
+	tween.tween_property(camera,"fov",110,0.1)
 
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -144,4 +166,6 @@ func _input(event):
 func _on_area_3d_body_entered(body):
 	isDashing = false;
 	dashTimer = 0
-	$fovAnimations.play("dash_end");
+	endDashFov()
+	
+	
