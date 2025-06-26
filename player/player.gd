@@ -15,6 +15,7 @@ var dashLocation : Vector3
 var isDashing : bool = false;
 var dashSpeed : float = 1.54;
 var dashTimer = 0;
+var isAbleToDash : bool = true;
 
 #slide
 var slideDirection : Vector3;
@@ -30,7 +31,14 @@ var hasDashed : bool = false;
 var hasSlided : bool = false;
 var timeOnFloor : float = 0;
 var currentSpeedFov : float = 0;
+
+#headbob
+var headbobSpeed : float = 6; #headbobs per second
+var headbobTimer : float = 0;
+const headbobLength : float = 0.4;
+
 func _ready():
+	isAbleToDash = true;
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	current_amount_of_dashes = AMOUNT_OF_DASHES_MAX
 	$dashLocation.position = Vector3(0*dashDistance, 0, -1*dashDistance)
@@ -48,17 +56,19 @@ func _physics_process(delta):
 		if(!hasJumpedTwice):
 			hasJumpedTwice = true;
 	if(is_on_floor()):
+		if(!isSliding):
+			headbob(delta)
 		hasJumpedTwice = false;
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir = Input.get_vector("left", "right", "up", "down")
-	handle_camera_move(delta,input_dir);
+
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
 	if direction:
 		$dashLocation.position = Vector3(input_dir.x*dashDistance, 0, input_dir.y*dashDistance)
-
+	
 	if(is_on_floor()):
 		if(!isSliding and !isDashing):
 			timeOnFloor+=delta
@@ -88,10 +98,17 @@ func _physics_process(delta):
 	handle_dash(delta);
 	handle_slide(delta);
 	$temp_ui/Label.text = "FOV: " + str(camera.fov)
+	$temp_ui/Label2.text = "DASH THINGY: " + str(dashTimer)
+	$temp_ui/Label3.text = "CAMERA ROTATION Z:" + str(camera.rotation.z)
 	move_and_slide()
 
-func handle_camera_move(delta : float, input_dir : Vector2):
-	pass
+func headbob(delta):
+	if(velocity.x + velocity.z != 0):
+		headbobTimer += delta * headbobSpeed 
+	if(headbobTimer>PI):
+		headbobTimer = 0;
+	var tween = get_tree().create_tween()
+	tween.tween_property(camera,"position:y",sin(headbobTimer) * headbobLength + 1,0.1)
 
 
 
@@ -119,12 +136,16 @@ func handle_slide(delta : float):
 		velocity.z = slideDirection.z
 	$CollisionShape3D.shape.height = 1 if isSliding else 2
 	$CollisionShape3D.position.y = -0.5 if isSliding else 0.0
-	camera.position.y = 0 if isSliding else 1;
+	
+	if(is_on_floor()):
+		var tween = get_tree().create_tween()
+		tween.tween_property(camera, "position:y",0 if isSliding else 0.75,0.1)
+
 
 func handle_dash(delta : float):
 	if(is_on_floor()):
 		current_amount_of_dashes = AMOUNT_OF_DASHES_MAX
-	if(Input.is_action_just_pressed("shift")) and current_amount_of_dashes >0:
+	if(Input.is_action_just_pressed("shift")) and current_amount_of_dashes >0 and isAbleToDash:
 		current_amount_of_dashes-=1;
 		velocity.y = 0;
 		hasDashed =true
@@ -134,7 +155,7 @@ func handle_dash(delta : float):
 	if(isDashing):
 		dashTimer+=delta*dashSpeed
 		global_position = global_position.lerp(dashLocation,dashTimer)
-		if (dashTimer>=0.99):
+		if (dashTimer>=0.4):
 			endDashFov()
 			dashTimer = 0
 			isDashing = false;
@@ -145,7 +166,7 @@ func straftCameraTurn(input_dir : Vector2):
 
 func runFov():
 	var tween = get_tree().create_tween()
-	tween.tween_property(camera,"fov",currentSpeedFov,0.3)
+	tween.tween_property(camera,"fov",currentSpeedFov,0.5)
 
 
 func endDashFov():
@@ -154,18 +175,33 @@ func endDashFov():
 
 func startDashFov():
 	var tween = get_tree().create_tween()
-	tween.tween_property(camera,"fov",110,0.1)
+	tween.tween_property(camera,"fov",currentSpeedFov+5,0.1)
 
 func _input(event):
 	if event is InputEventMouseMotion:
-		rotate_y(-event.relative.x * LOOK_SENSE * 0.5);
-		camera.rotate_x(-event.relative.y * LOOK_SENSE)
-		camera.rotation.x = clamp(camera.rotation.x, -PI/2,PI/2)
+		rotation.y+=(-event.relative.x * LOOK_SENSE * 0.5);
+		camera.rotation.x+=(-event.relative.y * LOOK_SENSE)
+		#camera.rotation.x = clamp(camera.rotation.x, -PI/2 ,PI/2)
+		camera.rotation.x = clamp(camera.rotation.x,-PI/2,PI/2)
+		
 
 
-func _on_area_3d_body_entered(body):
+
+func _on_dash_cancel_area_2_body_entered(body):
+
 	isDashing = false;
 	dashTimer = 0
 	endDashFov()
-	
-	
+
+
+func _on_dash_cancel_area_1_body_entered(body):
+	isAbleToDash = false
+	isDashing = false;
+	dashTimer = 0
+	endDashFov()
+
+
+
+
+func _on_dash_cancel_area_1_body_exited(body):
+	isAbleToDash = true
