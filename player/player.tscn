@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=4 uid="uid://bpscq30546s0b"]
 
 [ext_resource type="Script" uid="uid://bgrtle34v1pvj" path="res://player/player.gd" id="1_oul6g"]
-[ext_resource type="Shader" uid="uid://tioqnbq80b3u" path="res://player/pixelshader.gdshader" id="2_rkbax"]
+[ext_resource type="Shader" path="res://player/pixelshader.gdshader" id="2_rkbax"]
 [ext_resource type="Texture2D" uid="uid://7cbgsaa5u5br" path="res://resources/materials/models/Material.001_baseColor.png" id="3_g1dw6"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_oul6g"]
@@ -64,6 +64,7 @@ shape = SubResource("CapsuleShape3D_rkbax")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
 
 [node name="pixelfilter" type="ColorRect" parent="Camera3D"]
+visible = false
 material = SubResource("ShaderMaterial_g1dw6")
 
 [node name="temp_ui" type="Control" parent="Camera3D"]

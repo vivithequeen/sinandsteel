@@ -138,8 +138,8 @@ func headbob(delta):
 		headbobTimer += delta * headbobSpeed 
 	if(headbobTimer>PI):
 		headbobTimer = 0;
-	var tween = get_tree().create_tween()
-	tween.tween_property(camera,"position:y",sin(headbobTimer) * headbobLength + 1,0.1)
+	#var tween = get_tree().create_tween()
+	#tween.tween_property(camera,"position:y",sin(headbobTimer) * headbobLength + 1,0.1)
 
 
 
