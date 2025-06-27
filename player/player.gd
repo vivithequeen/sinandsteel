@@ -2,7 +2,7 @@ extends CharacterBody3D
 
 
 const SPEED = 12.0
-const MAXSPEED = 16;
+const MAXSPEED = 12;
 const JUMP_VELOCITY = 8
 const LOOK_SENSE := 0.0025;
 const dashDistance := 14;
@@ -66,7 +66,7 @@ func _physics_process(delta):
 		velocity.y = JUMP_VELOCITY
 		if(isWallRunning):
 			isWallRunning = false;
-			velocity+=(transform.basis * Vector3(1, 0, 0)).normalized() * JUMP_VELOCITY/2
+			
 			wallRunTimer = 0.3;
 		if(!hasJumpedTwice):
 			hasJumpedTwice = true;
@@ -106,7 +106,7 @@ func _physics_process(delta):
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
-
+	
 	currentSpeedFov = 90 + (6 if hasSlided else 0) + (6 if hasDashed else 0) +(6 if hasWallRun else 0)+ (15 if input_dir.y !=0 else 0)
 	if(!checkIfCanDash()):
 		if(isDashing):
@@ -120,9 +120,10 @@ func _physics_process(delta):
 	handle_slide(delta);
 	handle_wallrun(delta)
 	weaponHold(delta,input_dir)
-	
-	#velocity.x = clamp(velocity.x,-MAXSPEED,MAXSPEED)
-	#velocity.z = clamp(velocity.z,-MAXSPEED,MAXSPEED)
+	print(is_on_floor())
+
+	#velocity.x = clamp(velocity.x,-MAXSPEED * (direction.x if direction.x else 1),MAXSPEED * (direction.x if direction.x else 1))
+	#velocity.z = clamp(velocity.z,-MAXSPEED * (direction.z if direction.z else 1),MAXSPEED * (direction.z if direction.z else 1))
 	
 	move_and_slide()
 
@@ -171,7 +172,8 @@ func handle_slide(delta : float):
 
 		pass
 	else:
-		isSliding = false;
+		if(!$up_check.is_colliding()):
+			isSliding = false;
 	
 	if(isSliding):
 		var tween = get_tree().create_tween()

@@ -1,0 +1,1 @@
+https://github.com/TrenchBroom/TrenchBroom/releases/tag/v2024.1
