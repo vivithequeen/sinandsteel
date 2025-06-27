@@ -64,10 +64,10 @@ shape = SubResource("CapsuleShape3D_rkbax")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
 
 [node name="pixelfilter" type="ColorRect" parent="Camera3D"]
-visible = false
 material = SubResource("ShaderMaterial_g1dw6")
 
 [node name="temp_ui" type="Control" parent="Camera3D"]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
