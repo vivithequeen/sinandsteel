@@ -12,11 +12,11 @@ const GRAVITY := -16.0
 
 var hasJumpedTwice: bool = false
 #dash stuff
-var dashLocation: Vector3
+var dashLocation: Vector2
 var isDashing: bool = false;
-var dashSpeed: float = 1.54;
+var dashSpeed: float = 54;
 var dashTimer = 0;
-
+var dashDirection: Vector2;
 
 #slide
 var slideDirection: Vector3;
@@ -36,7 +36,7 @@ var hasWallRun: bool = false;
 var timeOnFloor: float = 0;
 var currentSpeedFov: float = 0;
 
-var isPlumeting : bool =false
+var isPlumeting: bool = false
 #headbob
 var headbobSpeed: float = 6; # headbobs per second
 var headbobTimer: float = 0;
@@ -46,7 +46,7 @@ const headbobLength: float = 0.4;
 var isWallRunning: bool = false
 var wallRunTimer: float = 0
 var timeWallRunning: float = 0
-var canWallJump : bool =true
+var canWallJump: bool = true
 
 const WALLRUN_SPEED_MUTI: float = 1.2
 func _ready():
@@ -55,19 +55,18 @@ func _ready():
 
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	current_amount_of_dashes = AMOUNT_OF_DASHES_MAX
-	$dashLocation.position = Vector3(0 * dashDistance, 0, -1 * dashDistance)
-func _physics_process(delta):
 
+func _physics_process(delta):
 	var speedMuti: float = 1.0;
 	speedMuti += 0.35 if hasSlided else 0.0
 	speedMuti += 0.25 if hasDashed else 0.0
 	speedMuti += 0.3 if hasWallRun else 0.0
 	# Add the gravity.
 	if !is_on_floor() && !isDashing:
-		if(isPlumeting):
-			velocity.y = GRAVITY*delta*200
+		if (isPlumeting):
+			velocity.y = GRAVITY * delta * 200
 		else:
-			velocity.y += GRAVITY * delta 
+			velocity.y += GRAVITY * delta
 	
 	# Handle jump.
 	if Input.is_action_just_pressed("space") and (is_on_floor() or !hasJumpedTwice) and !isSliding:
@@ -91,9 +90,8 @@ func _physics_process(delta):
 	var input_dir = Input.get_vector("left", "right", "up", "down")
 
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	$Camera3D/temp_ui/Label2.text = str(checkIfCanDash())
-	if direction:
-		$dashLocation.position = Vector3(input_dir.x * dashDistance, 0, input_dir.y * dashDistance)
+
+
 	if (timeOnFloor >= 0.35 && (is_on_floor() || input_dir.x == 0)):
 		speedMuti = 1;
 		hasSlided = false;
@@ -118,17 +116,18 @@ func _physics_process(delta):
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 	
 	currentSpeedFov = 90 + (14 if hasSlided else 0) + (8 if hasDashed else 0) + (12 if hasWallRun else 0) + (15 if input_dir.y != 0 else 0)
-	if (!checkIfCanDash()):
-		if (isDashing):
-			isDashing = false;
-			dashTimer = 0
-			endDashFov()
+	#if (!checkIfCanDash()):
+	#	if (isDashing):
+	#		isDashing = false;
+	#		dashTimer = 0
+	#		endDashFov()
 	if (!isDashing):
 		runFov();
 		straftCameraTurn(input_dir)
-	handle_dash(delta);
+	
 	handle_slide(delta);
 	handle_wallrun(delta)
+	handle_dash(delta,input_dir);
 	weaponHold(delta, input_dir)
 
 	#velocity.x = clamp(velocity.x,-MAXSPEED * (direction.x if direction.x else 1),MAXSPEED * (direction.x if direction.x else 1))
@@ -140,7 +139,7 @@ func weaponHold(delta, input_dir):
 	var tween = get_tree().create_tween()
 	
 	tween.parallel().tween_property($Camera3D/holdingThing, "position:y", sin(headbobTimer) * 0.02 + -0.23 + (0.0 if velocity.y < 0 else -0.025) + (0.0 if velocity.y > 0 else 0.025), 0.7)
-	if(!isSliding):tween.parallel().tween_property($Camera3D/holdingThing, "rotation:z", input_dir.x * -deg_to_rad(9.5) * (-1 if isWallRunning else 1), 0.5)
+	if (!isSliding): tween.parallel().tween_property($Camera3D/holdingThing, "rotation:z", input_dir.x * -deg_to_rad(9.5) * (-1 if isWallRunning else 1), 0.5)
 	tween.parallel().tween_property($Camera3D/holdingThing, "position:z", (0.15 if input_dir.y == 1 else 0.0), 0.5)
 func headbob(delta):
 	if (velocity.x + velocity.z != 0):
@@ -154,39 +153,37 @@ func headbob(delta):
 func handle_wallrun(delta: float):
 	$Camera3D/temp_ui/Label.text = str(wallRunTimer)
 	if ($raycastleft.is_colliding() && Input.is_action_pressed("left") and !is_on_floor() and wallRunTimer <= 0):
-
 		isWallRunning = true;
 
 	elif ($raycastright.is_colliding() && Input.is_action_pressed("right") and !is_on_floor() and wallRunTimer <= 0):
-
 		isWallRunning = true;
 
 	else:
 		timeWallRunning = 0;
 		isWallRunning = false;
-	if(isWallRunning):
+	if (isWallRunning):
 		timeWallRunning += delta
 		velocity.y = 0;
 		
 
-		velocity*=WALLRUN_SPEED_MUTI
+		velocity *= WALLRUN_SPEED_MUTI
 
 		velocity.y += GRAVITY / 12.0
-		if(Input.is_action_just_pressed("space") and canWallJump):
+		if (Input.is_action_just_pressed("space") and canWallJump):
 			hasWallRun = true;
-			velocity.y+=JUMP_VELOCITY*1.4
+			velocity.y += JUMP_VELOCITY * 1.4
 			canWallJump = false;
 			isWallRunning = false
 			wallRunTimer = 0.5
 			hasJumpedTwice = false;
-	if(wallRunTimer>=0):
+	if (wallRunTimer >= 0):
 		wallRunTimer -= delta
 
 		#velocity.x= (transform.basis * Vector3(1,0,0)).normalized().x * SPEED/16;
 
 func handle_slide(delta: float):
-	if (Input.is_action_just_pressed("ctrl")):
-		if(is_on_floor()):
+	if (Input.is_action_just_pressed("ctrl") and !isDashing):
+		if (is_on_floor()):
 			isSliding = true;
 
 			if (velocity * Vector3(1, 0, 1)):
@@ -221,30 +218,34 @@ func handle_slide(delta: float):
 		tween.tween_property(camera, "position:y", 0.0 if isSliding else 0.75, 0.1)
 
 
-func handle_dash(delta: float):
+func handle_dash(delta: float,input_dir):
 	if (is_on_floor()):
 		current_amount_of_dashes = AMOUNT_OF_DASHES_MAX
-	if (Input.is_action_just_pressed("shift")) and current_amount_of_dashes > 0 and checkIfCanDash() and !isDashing:
+	if (Input.is_action_just_pressed("shift")) and current_amount_of_dashes > 0  and !isDashing and !isSliding:
+		if (velocity * Vector3(1, 0, 1)):
+			dashDirection = Vector2(velocity.normalized().x,velocity.normalized().z) * Vector2(1,1)
+		else:
+			dashDirection =  Vector2((Vector3(0,0,-1) * transform.basis).x,(Vector3(0,0,-1) * transform.basis).z)
 		isPlumeting = false;
 		current_amount_of_dashes -= 1;
 		velocity.y = 0;
-		hasDashed = true
+		
 		startDashFov()
 		isDashing = true;
-		dashLocation = $dashLocation.global_position
+		
 	if (isDashing):
-		dashTimer += delta * dashSpeed
-		global_position = global_position.lerp(dashLocation, dashTimer)
-		if (dashTimer >= 0.4):
+		velocity.x = dashDirection.x * dashSpeed
+		velocity.z = dashDirection.y * dashSpeed
+		hasDashed = true
+
+		dashTimer += delta
+
+		if (dashTimer >= 0.2):
 			endDashFov()
 			dashTimer = 0
 			isDashing = false;
 
-func checkIfCanDash() -> bool:
-	for i in $checkcandash.get_children():
-		if (i.is_colliding()):
-			return false;
-	return true;
+
 func straftCameraTurn(input_dir: Vector2):
 	if (!isDashing and !isSliding):
 		var tween = get_tree().create_tween()

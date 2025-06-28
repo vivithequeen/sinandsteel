@@ -8,15 +8,8 @@ func _ready():
 func fixMeshs(s):
 	print(self)
 	for i in s.get_children():
-		print(self)
-		if(i is MeshInstance3D):
-			print(i)
-			for j in i.mesh.get_surface_count():
-				print(j)
-				if(i.mesh.surface_get_material(j)):
-					i.mesh.surface_get_material(j).texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST_WITH_MIPMAPS_ANISOTROPIC;
 
-		elif(i is StaticBody3D):
+		if(i is StaticBody3D):
 			i.set_collision_layer_value(4, true)
 			i.set_collision_mask_value(4, true)
 		else:
