@@ -47,6 +47,10 @@ func create_map_control() -> Control:
 func build_meshes():
 	var loader = editing_loader.get_ref()
 	loader.build_meshes()
+	
+
+
+
 
 func build_combined_csg():
 	var loader = editing_loader.get_ref()

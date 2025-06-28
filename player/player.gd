@@ -22,8 +22,10 @@ var dashTimer = 0;
 var slideDirection: Vector3;
 var isSliding: bool = false;
 var current_amount_of_dashes = 0
+
 const AMOUNT_OF_DASHES_MAX: int = 3;
 const SLIDE_MUTI: float = 1.4;
+
 
 #general movement
 var isMoving: bool = false;
@@ -34,6 +36,7 @@ var hasWallRun: bool = false;
 var timeOnFloor: float = 0;
 var currentSpeedFov: float = 0;
 
+var isPlumeting : bool =false
 #headbob
 var headbobSpeed: float = 6; # headbobs per second
 var headbobTimer: float = 0;
@@ -43,10 +46,12 @@ const headbobLength: float = 0.4;
 var isWallRunning: bool = false
 var wallRunTimer: float = 0
 var timeWallRunning: float = 0
+var canWallJump : bool =true
+
 const WALLRUN_SPEED_MUTI: float = 1.2
 func _ready():
 	$Camera3D/pixelfilter.size = get_viewport().size
-	print(get_viewport().size)
+
 
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	current_amount_of_dashes = AMOUNT_OF_DASHES_MAX
@@ -54,12 +59,15 @@ func _ready():
 func _physics_process(delta):
 
 	var speedMuti: float = 1.0;
-	speedMuti += 0.25 if hasSlided else 0.0
+	speedMuti += 0.35 if hasSlided else 0.0
 	speedMuti += 0.25 if hasDashed else 0.0
-	speedMuti += 0.25 if hasWallRun else 0.0
+	speedMuti += 0.3 if hasWallRun else 0.0
 	# Add the gravity.
 	if !is_on_floor() && !isDashing:
-		velocity.y += GRAVITY * delta
+		if(isPlumeting):
+			velocity.y = GRAVITY*delta*200
+		else:
+			velocity.y += GRAVITY * delta 
 	
 	# Handle jump.
 	if Input.is_action_just_pressed("space") and (is_on_floor() or !hasJumpedTwice) and !isSliding:
@@ -71,9 +79,12 @@ func _physics_process(delta):
 		if (!hasJumpedTwice):
 			hasJumpedTwice = true;
 	if (is_on_floor()):
+		isPlumeting = false;
+		canWallJump = true
 		if (!isSliding):
 			headbob(delta)
 		hasJumpedTwice = false;
+
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -95,7 +106,7 @@ func _physics_process(delta):
 
 	else:
 		timeOnFloor = 0
-	if direction and !isDashing:
+	if direction and !isDashing and !isPlumeting:
 		isMoving = false;
 #		$fovAnimations.play("move_end")
 		velocity.x = direction.x * SPEED * speedMuti
@@ -106,7 +117,7 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 	
-	currentSpeedFov = 90 + (8 if hasSlided else 0) + (8 if hasDashed else 0) + (8 if hasWallRun else 0) + (15 if input_dir.y != 0 else 0)
+	currentSpeedFov = 90 + (14 if hasSlided else 0) + (8 if hasDashed else 0) + (12 if hasWallRun else 0) + (15 if input_dir.y != 0 else 0)
 	if (!checkIfCanDash()):
 		if (isDashing):
 			isDashing = false;
@@ -119,7 +130,6 @@ func _physics_process(delta):
 	handle_slide(delta);
 	handle_wallrun(delta)
 	weaponHold(delta, input_dir)
-	print(is_on_floor())
 
 	#velocity.x = clamp(velocity.x,-MAXSPEED * (direction.x if direction.x else 1),MAXSPEED * (direction.x if direction.x else 1))
 	#velocity.z = clamp(velocity.z,-MAXSPEED * (direction.z if direction.z else 1),MAXSPEED * (direction.z if direction.z else 1))
@@ -157,28 +167,34 @@ func handle_wallrun(delta: float):
 	if(isWallRunning):
 		timeWallRunning += delta
 		velocity.y = 0;
-		hasWallRun = true;
+		
 
 		velocity*=WALLRUN_SPEED_MUTI
 
-		velocity.y += GRAVITY / 16.0
-		if(Input.is_action_just_pressed("space")):
+		velocity.y += GRAVITY / 12.0
+		if(Input.is_action_just_pressed("space") and canWallJump):
+			hasWallRun = true;
 			velocity.y+=JUMP_VELOCITY*1.4
-
+			canWallJump = false;
 			isWallRunning = false
-			wallRunTimer = 2
+			wallRunTimer = 0.5
+			hasJumpedTwice = false;
 	if(wallRunTimer>=0):
 		wallRunTimer -= delta
+
 		#velocity.x= (transform.basis * Vector3(1,0,0)).normalized().x * SPEED/16;
 
 func handle_slide(delta: float):
-	if (Input.is_action_just_pressed("ctrl") and is_on_floor()):
-		isSliding = true;
-		hasSlided = true;
-		if (velocity * Vector3(1, 0, 1)):
-			slideDirection = velocity * Vector3(1, 0, 1) * SLIDE_MUTI;
+	if (Input.is_action_just_pressed("ctrl")):
+		if(is_on_floor()):
+			isSliding = true;
+
+			if (velocity * Vector3(1, 0, 1)):
+				slideDirection = velocity * Vector3(1, 0, 1) * SLIDE_MUTI;
+			else:
+				slideDirection = transform.basis * Vector3(0, 0, -1) * SPEED * SLIDE_MUTI
 		else:
-			slideDirection = transform.basis * Vector3(0, 0, -1) * SPEED * SLIDE_MUTI
+			isPlumeting = true
 			
 	if (Input.is_action_pressed("ctrl")):
 		pass
@@ -190,8 +206,9 @@ func handle_slide(delta: float):
 		var tween = get_tree().create_tween()
 		tween.tween_property(camera, "rotation:z", (slideDirection.x / abs(slideDirection.x)) * -deg_to_rad(7.5) * (-1 if isWallRunning else 1), 0.5)
 		
-		hasSlided = true;
+		
 		if (Input.is_action_just_pressed("space") and is_on_floor()):
+			hasSlided = true;
 			velocity.y += JUMP_VELOCITY
 			isSliding = false;
 		velocity.x = slideDirection.x
@@ -208,6 +225,7 @@ func handle_dash(delta: float):
 	if (is_on_floor()):
 		current_amount_of_dashes = AMOUNT_OF_DASHES_MAX
 	if (Input.is_action_just_pressed("shift")) and current_amount_of_dashes > 0 and checkIfCanDash() and !isDashing:
+		isPlumeting = false;
 		current_amount_of_dashes -= 1;
 		velocity.y = 0;
 		hasDashed = true

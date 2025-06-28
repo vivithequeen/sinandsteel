@@ -112,7 +112,6 @@ target_position = Vector3(-0.55, 0, 0)
 target_position = Vector3(0.56, 0, 0)
 
 [node name="checkcandash" type="Node3D" parent="."]
-visible = false
 
 [node name="10" type="RayCast3D" parent="checkcandash"]
 exclude_parent = false
@@ -246,6 +245,294 @@ collision_mask = 8
 
 [node name="-15" type="RayCast3D" parent="checkcandash"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+exclude_parent = false
+target_position = Vector3(-1, 0, 0)
+collision_mask = 8
+
+[node name="16" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 0, 0)
+exclude_parent = false
+target_position = Vector3(1, 0, 0)
+collision_mask = 8
+
+[node name="1-4" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 0, 0)
+exclude_parent = false
+target_position = Vector3(0.7, 0, 0.7)
+collision_mask = 8
+
+[node name="0-4" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 0, 0)
+exclude_parent = false
+target_position = Vector3(0, 0, 1)
+collision_mask = 8
+
+[node name="04" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 0, 0)
+exclude_parent = false
+target_position = Vector3(0, 0, -1)
+collision_mask = 8
+
+[node name="-1-4" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 0, 0)
+exclude_parent = false
+target_position = Vector3(-0.7, 0, 0.7)
+collision_mask = 8
+
+[node name="17" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 0, 0)
+exclude_parent = false
+target_position = Vector3(0.7, 0, -0.7)
+collision_mask = 8
+
+[node name="-16" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 0, 0)
+exclude_parent = false
+target_position = Vector3(-0.7, 0, -0.7)
+collision_mask = 8
+
+[node name="-17" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 0, 0)
+exclude_parent = false
+target_position = Vector3(-1, 0, 0)
+collision_mask = 8
+
+[node name="18" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 1, 0)
+exclude_parent = false
+target_position = Vector3(1, 0, 0)
+collision_mask = 8
+
+[node name="1-5" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 1, 0)
+exclude_parent = false
+target_position = Vector3(0.7, 0, 0.7)
+collision_mask = 8
+
+[node name="0-5" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 1, 0)
+exclude_parent = false
+target_position = Vector3(0, 0, 1)
+collision_mask = 8
+
+[node name="05" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 1, 0)
+exclude_parent = false
+target_position = Vector3(0, 0, -1)
+collision_mask = 8
+
+[node name="-1-5" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 1, 0)
+exclude_parent = false
+target_position = Vector3(-0.7, 0, 0.7)
+collision_mask = 8
+
+[node name="19" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 1, 0)
+exclude_parent = false
+target_position = Vector3(0.7, 0, -0.7)
+collision_mask = 8
+
+[node name="-18" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 1, 0)
+exclude_parent = false
+target_position = Vector3(-0.7, 0, -0.7)
+collision_mask = 8
+
+[node name="-19" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 1, 0)
+exclude_parent = false
+target_position = Vector3(-1, 0, 0)
+collision_mask = 8
+
+[node name="20" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, -1, 0)
+exclude_parent = false
+target_position = Vector3(1, 0, 0)
+collision_mask = 8
+
+[node name="1-6" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, -1, 0)
+exclude_parent = false
+target_position = Vector3(0.7, 0, 0.7)
+collision_mask = 8
+
+[node name="0-6" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, -1, 0)
+exclude_parent = false
+target_position = Vector3(0, 0, 1)
+collision_mask = 8
+
+[node name="06" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, -1, 0)
+exclude_parent = false
+target_position = Vector3(0, 0, -1)
+collision_mask = 8
+
+[node name="-1-6" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, -1, 0)
+exclude_parent = false
+target_position = Vector3(-0.7, 0, 0.7)
+collision_mask = 8
+
+[node name="21" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, -1, 0)
+exclude_parent = false
+target_position = Vector3(0.7, 0, -0.7)
+collision_mask = 8
+
+[node name="-20" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, -1, 0)
+exclude_parent = false
+target_position = Vector3(-0.7, 0, -0.7)
+collision_mask = 8
+
+[node name="-21" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, -1, 0)
+exclude_parent = false
+target_position = Vector3(-1, 0, 0)
+collision_mask = 8
+
+[node name="22" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 0, 0)
+exclude_parent = false
+target_position = Vector3(1, 0, 0)
+collision_mask = 8
+
+[node name="1-7" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 0, 0)
+exclude_parent = false
+target_position = Vector3(0.7, 0, 0.7)
+collision_mask = 8
+
+[node name="0-7" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 0, 0)
+exclude_parent = false
+target_position = Vector3(0, 0, 1)
+collision_mask = 8
+
+[node name="07" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 0, 0)
+exclude_parent = false
+target_position = Vector3(0, 0, -1)
+collision_mask = 8
+
+[node name="-1-7" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 0, 0)
+exclude_parent = false
+target_position = Vector3(-0.7, 0, 0.7)
+collision_mask = 8
+
+[node name="23" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 0, 0)
+exclude_parent = false
+target_position = Vector3(0.7, 0, -0.7)
+collision_mask = 8
+
+[node name="-22" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 0, 0)
+exclude_parent = false
+target_position = Vector3(-0.7, 0, -0.7)
+collision_mask = 8
+
+[node name="-23" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 0, 0)
+exclude_parent = false
+target_position = Vector3(-1, 0, 0)
+collision_mask = 8
+
+[node name="24" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 1, 0)
+exclude_parent = false
+target_position = Vector3(1, 0, 0)
+collision_mask = 8
+
+[node name="1-8" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 1, 0)
+exclude_parent = false
+target_position = Vector3(0.7, 0, 0.7)
+collision_mask = 8
+
+[node name="0-8" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 1, 0)
+exclude_parent = false
+target_position = Vector3(0, 0, 1)
+collision_mask = 8
+
+[node name="08" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 1, 0)
+exclude_parent = false
+target_position = Vector3(0, 0, -1)
+collision_mask = 8
+
+[node name="-1-8" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 1, 0)
+exclude_parent = false
+target_position = Vector3(-0.7, 0, 0.7)
+collision_mask = 8
+
+[node name="25" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 1, 0)
+exclude_parent = false
+target_position = Vector3(0.7, 0, -0.7)
+collision_mask = 8
+
+[node name="-24" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 1, 0)
+exclude_parent = false
+target_position = Vector3(-0.7, 0, -0.7)
+collision_mask = 8
+
+[node name="-25" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 1, 0)
+exclude_parent = false
+target_position = Vector3(-1, 0, 0)
+collision_mask = 8
+
+[node name="26" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, -1, 0)
+exclude_parent = false
+target_position = Vector3(1, 0, 0)
+collision_mask = 8
+
+[node name="1-9" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, -1, 0)
+exclude_parent = false
+target_position = Vector3(0.7, 0, 0.7)
+collision_mask = 8
+
+[node name="0-9" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, -1, 0)
+exclude_parent = false
+target_position = Vector3(0, 0, 1)
+collision_mask = 8
+
+[node name="09" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, -1, 0)
+exclude_parent = false
+target_position = Vector3(0, 0, -1)
+collision_mask = 8
+
+[node name="-1-9" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, -1, 0)
+exclude_parent = false
+target_position = Vector3(-0.7, 0, 0.7)
+collision_mask = 8
+
+[node name="27" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, -1, 0)
+exclude_parent = false
+target_position = Vector3(0.7, 0, -0.7)
+collision_mask = 8
+
+[node name="-26" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, -1, 0)
+exclude_parent = false
+target_position = Vector3(-0.7, 0, -0.7)
+collision_mask = 8
+
+[node name="-27" type="RayCast3D" parent="checkcandash"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, -1, 0)
 exclude_parent = false
 target_position = Vector3(-1, 0, 0)
 collision_mask = 8
