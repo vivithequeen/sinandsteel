@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://ds6yutkxgcsnr"]
+
+[ext_resource type="PackedScene" uid="uid://bg4i2hlijjt4q" path="res://materials/models/shotgun.blend" id="1_vuc10"]
+
+[node name="Shotgun" type="Node3D"]
+
+[node name="shotgun" parent="." instance=ExtResource("1_vuc10")]
+transform = Transform3D(-1.42062e-08, 0, 0.325, 0, 0.325, 0, -0.325, 0, -1.42062e-08, 0, 0, 0.219972)

@@ -19,7 +19,12 @@ func fixMeshs(s):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if(paused):
-		pass
+		ImGui.Begin("Level Selection")
+		if(ImGui.TreeNode("Oblivious")):
+			if(ImGui.Button("Load Level 1")):
+				get_tree().change_scene_to_file("res://scenes/main/main.tscn")
+			ImGui.TreePop();
+		ImGui.End()
 
 func _input(event: InputEvent) -> void:
 	if(event.is_action_pressed("f1")):

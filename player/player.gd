@@ -264,8 +264,8 @@ func startDashFov():
 	tween.tween_property(camera, "fov", currentSpeedFov + 5, 0.1)
 
 func _input(event):
-	if event is InputEventMouseMotion:
-		rotation.y += (-event.relative.x * LOOK_SENSE * 0.5);
-		camera.rotation.x += (-event.relative.y * LOOK_SENSE)
-		#camera.rotation.x = clamp(camera.rotation.x, -PI/2 ,PI/2)
-		camera.rotation.x = clamp(camera.rotation.x, -PI / 2, PI / 2)
+	if(!get_node("../").paused):
+		if event is InputEventMouseMotion:
+			rotation.y += (-event.relative.x * LOOK_SENSE * 0.5);
+			camera.rotation.x += (-event.relative.y * LOOK_SENSE)
+			camera.rotation.x = clamp(camera.rotation.x, -PI / 2, PI / 2)
