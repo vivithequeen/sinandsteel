@@ -53,7 +53,6 @@ func _ready():
 	$Camera3D/pixelfilter.size = get_viewport().size
 
 
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	current_amount_of_dashes = AMOUNT_OF_DASHES_MAX
 
 func _physics_process(delta):
@@ -146,8 +145,8 @@ func headbob(delta):
 		headbobTimer += delta * headbobSpeed
 	if (headbobTimer > PI):
 		headbobTimer = 0;
-	#var tween = get_tree().create_tween()
-	#tween.tween_property(camera,"position:y",sin(headbobTimer) * headbobLength + 1,0.1)
+	var tween = get_tree().create_tween()
+	tween.tween_property(camera,"position:y",sin(headbobTimer) * headbobLength + 1,0.1)
 
 
 func handle_wallrun(delta: float):

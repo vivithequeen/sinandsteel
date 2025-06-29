@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dllu0wbgqsi3r"]
+
+[ext_resource type="Script" uid="uid://cohpuoya1ekyd" path="res://player/weapons/stapler/stapler.gd" id="1_3pkwc"]
+[ext_resource type="PackedScene" uid="uid://bfykhsfr3ojty" path="res://materials/models/stapler.blend" id="1_scf5m"]
+
+[node name="Stapler" type="Node3D"]
+script = ExtResource("1_3pkwc")
+
+[node name="stapler" parent="." instance=ExtResource("1_scf5m")]
+transform = Transform3D(-0.002, 0, 3.01992e-10, 0, 0.002, 0, -3.01992e-10, 0, -0.002, -0.055, 0, -0.282105)
+
+[node name="spawn" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0391603, 0.101945, -0.737431)
+
+[node name="dist" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0391603, 0.101945, -1.0924)

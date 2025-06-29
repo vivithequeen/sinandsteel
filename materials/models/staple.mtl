@@ -1,0 +1,9 @@
+newmtl gray
+map_Kd textures/gray.png
+
+newmtl green
+map_Kd textures/green.png
+
+newmtl orenge
+map_Kd textures/orenge.png
+

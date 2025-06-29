@@ -1,0 +1,56 @@
+[gd_scene load_steps=7 format=3 uid="uid://y8lxevmu7imd"]
+
+[ext_resource type="Script" uid="uid://cfmetxwbjckcg" path="res://player/weapons/stapler/staple.gd" id="1_pfihm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pfihm"]
+albedo_color = Color(0.239216, 0.239216, 0.239216, 1)
+metallic = 1.0
+metallic_specular = 1.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_lnynl"]
+material = SubResource("StandardMaterial3D_pfihm")
+size = Vector3(1.25, 0.25, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lnynl"]
+albedo_color = Color(0.237539, 0.237539, 0.237539, 1)
+metallic = 1.0
+metallic_specular = 1.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_pfihm"]
+material = SubResource("StandardMaterial3D_lnynl")
+size = Vector3(0.25, 0.25, 0.25)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pfihm"]
+size = Vector3(0.311401, 0.0596924, 0.0609131)
+
+[node name="Staple" type="Node3D"]
+script = ExtResource("1_pfihm")
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D"]
+mesh = SubResource("BoxMesh_lnynl")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, -0.25)
+mesh = SubResource("BoxMesh_pfihm")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -0.25)
+mesh = SubResource("BoxMesh_pfihm")
+skeleton = NodePath("../..")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.10352e-05, -6.10352e-05, 6.10352e-05)
+shape = SubResource("BoxShape3D_pfihm")
+
+[node name="despawn_timer" type="Timer" parent="."]
+wait_time = 5.0
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="timeout" from="despawn_timer" to="." method="_on_despawn_timer_timeout"]
