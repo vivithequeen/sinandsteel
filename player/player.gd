@@ -152,10 +152,10 @@ func headbob(delta):
 
 func handle_wallrun(delta: float):
 	$Camera3D/temp_ui/Label.text = str(wallRunTimer)
-	if ($raycastleft.is_colliding() && Input.is_action_pressed("left") and !is_on_floor() and wallRunTimer <= 0):
+	if ($raycastleft.is_colliding() && Input.is_action_pressed("left") and !is_on_floor() and wallRunTimer <= 0 and !isPlumeting):
 		isWallRunning = true;
 
-	elif ($raycastright.is_colliding() && Input.is_action_pressed("right") and !is_on_floor() and wallRunTimer <= 0):
+	elif ($raycastright.is_colliding() && Input.is_action_pressed("right") and !is_on_floor() and wallRunTimer <= 0 and !isPlumeting):
 		isWallRunning = true;
 
 	else:
@@ -204,7 +204,7 @@ func handle_slide(delta: float):
 		tween.tween_property(camera, "rotation:z", (slideDirection.x / abs(slideDirection.x)) * -deg_to_rad(7.5) * (-1 if isWallRunning else 1), 0.5)
 		
 		
-		if (Input.is_action_just_pressed("space") and is_on_floor()):
+		if (Input.is_action_just_pressed("space") ):
 			hasSlided = true;
 			velocity.y += JUMP_VELOCITY
 			isSliding = false;
