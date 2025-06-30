@@ -50,6 +50,7 @@ var canWallJump: bool = true
 
 const WALLRUN_SPEED_MUTI: float = 1.2
 func _ready():
+	seed(randi())
 	$Camera3D/pixelfilter.size = get_viewport().size
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 

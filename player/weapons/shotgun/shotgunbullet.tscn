@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://b33sa15udtlo2"]
+
+[ext_resource type="Script" uid="uid://dbrmxaeejc2xq" path="res://player/weapons/shotgun/shotgunbullet.gd" id="1_gs5i8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gs5i8"]
+albedo_color = Color(1, 0, 0.00784314, 1)
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 16.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_lbcep"]
+material = SubResource("StandardMaterial3D_gs5i8")
+top_radius = 0.25
+bottom_radius = 0.25
+height = 1.215
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pfihm"]
+size = Vector3(0.125366, 0.121124, 0.293488)
+
+[node name="shotgunbullet" type="Node3D"]
+script = ExtResource("1_gs5i8")
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_lbcep")
+skeleton = NodePath("../..")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000305355, -0.000564578, 0.00456237)
+shape = SubResource("BoxShape3D_pfihm")
+
+[node name="despawn_timer2" type="Timer" parent="."]
+wait_time = 30.0
+autostart = true
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="timeout" from="despawn_timer2" to="." method="_on_despawn_timer_2_timeout"]
