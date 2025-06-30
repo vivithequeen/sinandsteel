@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://cvl4jifhtll3c"]
+
+[ext_resource type="Texture2D" uid="uid://bv5uwvbosms28" path="res://textures/steel2.jpg" id="1_ygi51"]
+[ext_resource type="Texture2D" uid="uid://dfcnqj1mexa5d" path="res://materials/materials/steel2/DiamondPlate001_1K-JPG_NormalDX.jpg" id="2_a7n05"]
+
+[resource]
+albedo_texture = ExtResource("1_ygi51")
+normal_enabled = true
+normal_texture = ExtResource("2_a7n05")
+uv1_triplanar = true

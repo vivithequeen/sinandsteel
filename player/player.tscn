@@ -1,12 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://bpscq30546s0b"]
+[gd_scene load_steps=9 format=3 uid="uid://bpscq30546s0b"]
 
 [ext_resource type="Script" uid="uid://bgrtle34v1pvj" path="res://player/player.gd" id="1_oul6g"]
 [ext_resource type="Shader" path="res://player/pixelshader.gdshader" id="2_rkbax"]
 [ext_resource type="PackedScene" uid="uid://ds6yutkxgcsnr" path="res://player/weapons/shotgun/shotgun.tscn" id="3_boad6"]
 [ext_resource type="Texture2D" uid="uid://bj3xvaw17w3r4" path="res://materials/models/Material.001_baseColor.png" id="3_g1dw6"]
 [ext_resource type="ArrayMesh" uid="uid://b2gehkale1njv" path="res://materials/models/shark.mesh" id="4_yw30f"]
-[ext_resource type="PackedScene" uid="uid://dllu0wbgqsi3r" path="res://player/weapons/stapler/stapler.tscn" id="5_qjkh3"]
-[ext_resource type="PackedScene" uid="uid://dsb7dh4gtxsl1" path="res://player/arm.blend" id="6_g6k8r"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rkbax"]
 
@@ -32,7 +30,6 @@ current = true
 material = SubResource("ShaderMaterial_g1dw6")
 
 [node name="temp_ui" type="Control" parent="Camera3D"]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -44,27 +41,8 @@ offset_right = 40.0
 offset_bottom = 23.0
 text = "fov:"
 
-[node name="Label2" type="Label" parent="Camera3D/temp_ui"]
-layout_mode = 0
-offset_left = 2.0
-offset_top = 36.0
-offset_right = 42.0
-offset_bottom = 59.0
-text = "fov:"
-
-[node name="Label3" type="Label" parent="Camera3D/temp_ui"]
-layout_mode = 0
-offset_left = 2.0
-offset_top = 56.99
-offset_right = 42.0
-offset_bottom = 79.99
-text = "fov:"
-
 [node name="holdingThing" type="Node3D" parent="Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.351, -0.23, 0)
-
-[node name="arm" parent="Camera3D/holdingThing" instance=ExtResource("6_g6k8r")]
-transform = Transform3D(0.67, 0, 0, 0, 0.0897707, -0.663959, 0, 0.663959, 0.0897707, -0.892409, -0.168853, -0.4316)
 
 [node name="Shotgun" parent="Camera3D/holdingThing" instance=ExtResource("3_boad6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0213777, -0.559779)
@@ -76,9 +54,6 @@ material_override = SubResource("StandardMaterial3D_yw30f")
 cast_shadow = 0
 mesh = ExtResource("4_yw30f")
 skeleton = NodePath("../../..")
-
-[node name="Stapler" parent="Camera3D/holdingThing" instance=ExtResource("5_qjkh3")]
-visible = false
 
 [node name="raycastleft" type="RayCast3D" parent="."]
 target_position = Vector3(-0.55, 0, 0)

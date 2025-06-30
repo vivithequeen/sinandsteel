@@ -51,11 +51,12 @@ var canWallJump: bool = true
 const WALLRUN_SPEED_MUTI: float = 1.2
 func _ready():
 	$Camera3D/pixelfilter.size = get_viewport().size
-
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 	current_amount_of_dashes = AMOUNT_OF_DASHES_MAX
 
 func _physics_process(delta):
+	$Camera3D/temp_ui/Label.text = str(Vector2(velocity.x,velocity.z).length())
 	var speedMuti: float = 1.0;
 	speedMuti += 0.35 if hasSlided else 0.0
 	speedMuti += 0.25 if hasDashed else 0.0
@@ -145,12 +146,12 @@ func headbob(delta):
 		headbobTimer += delta * headbobSpeed
 	if (headbobTimer > PI):
 		headbobTimer = 0;
-	var tween = get_tree().create_tween()
-	tween.tween_property(camera,"position:y",sin(headbobTimer) * headbobLength + 1,0.1)
+	#var tween = get_tree().create_tween()
+	#tween.tween_property(camera,"position:y",sin(headbobTimer) * headbobLength + 1,0.1)
 
 
 func handle_wallrun(delta: float):
-	$Camera3D/temp_ui/Label.text = str(wallRunTimer)
+
 	if ($raycastleft.is_colliding() && Input.is_action_pressed("left") and !is_on_floor() and wallRunTimer <= 0 and !isPlumeting):
 		isWallRunning = true;
 
@@ -224,7 +225,10 @@ func handle_dash(delta: float,input_dir):
 		if (velocity * Vector3(1, 0, 1)):
 			dashDirection = Vector2(velocity.normalized().x,velocity.normalized().z) * Vector2(1,1)
 		else:
-			dashDirection =  Vector2((Vector3(0,0,-1) * transform.basis).x,(Vector3(0,0,-1) * transform.basis).z)
+			var direction = (transform.basis * Vector3(1, 0, 0)).normalized()
+			velocity.x+=direction.x
+			velocity.z+=direction.z
+			dashDirection = Vector2(velocity.normalized().x,velocity.normalized().z) * Vector2(1,1)
 		isPlumeting = false;
 		current_amount_of_dashes -= 1;
 		velocity.y = 0;
@@ -248,7 +252,7 @@ func handle_dash(delta: float,input_dir):
 func straftCameraTurn(input_dir: Vector2):
 	if (!isDashing and !isSliding):
 		var tween = get_tree().create_tween()
-		tween.tween_property(camera, "rotation:z", input_dir.x * -deg_to_rad(7.5) * (-1 if isWallRunning else 1), 0.5)
+		tween.tween_property(camera, "rotation:z", input_dir.x * -deg_to_rad(10) * (-1 if isWallRunning else 1), 0.5)
 
 func runFov():
 	var tween = get_tree().create_tween()
@@ -264,8 +268,8 @@ func startDashFov():
 	tween.tween_property(camera, "fov", currentSpeedFov + 5, 0.1)
 
 func _input(event):
-	if(!get_node("../").paused):
-		if event is InputEventMouseMotion:
-			rotation.y += (-event.relative.x * LOOK_SENSE * 0.5);
-			camera.rotation.x += (-event.relative.y * LOOK_SENSE)
-			camera.rotation.x = clamp(camera.rotation.x, -PI / 2, PI / 2)
+	#if(!get_node("../").paused):
+	if event is InputEventMouseMotion:
+		rotation.y += (-event.relative.x * LOOK_SENSE * 0.5);
+		camera.rotation.x += (-event.relative.y * LOOK_SENSE)
+		camera.rotation.x = clamp(camera.rotation.x, -PI / 2, PI / 2)
