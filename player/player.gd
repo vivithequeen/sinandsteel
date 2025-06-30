@@ -57,6 +57,8 @@ func _ready():
 	current_amount_of_dashes = AMOUNT_OF_DASHES_MAX
 
 func _physics_process(delta):
+
+	
 	$Camera3D/temp_ui/Label.text = str(Vector2(velocity.x,velocity.z).length())
 	var speedMuti: float = 1.0;
 	speedMuti += 0.35 if hasSlided else 0.0
@@ -131,17 +133,18 @@ func _physics_process(delta):
 	handle_dash(delta,input_dir);
 	weaponHold(delta, input_dir)
 
-	#velocity.x = clamp(velocity.x,-MAXSPEED * (direction.x if direction.x else 1),MAXSPEED * (direction.x if direction.x else 1))
-	#velocity.z = clamp(velocity.z,-MAXSPEED * (direction.z if direction.z else 1),MAXSPEED * (direction.z if direction.z else 1))
+	
 	
 	move_and_slide()
-
+#func _process(delta: float) -> void:
+#	$Camera3D/SubViewport/SubViewport/Camera3D.global_position = $Camera3D.global_position
+#	$Camera3D/SubViewport/SubViewport/Camera3D.global_rotation = $Camera3D.global_rotation
 func weaponHold(delta, input_dir):
 	var tween = get_tree().create_tween()
-	
-	tween.parallel().tween_property($Camera3D/holdingThing, "position:y", sin(headbobTimer) * 0.02 + -0.23 + (0.0 if velocity.y < 0 else -0.025) + (0.0 if velocity.y > 0 else 0.025), 0.7)
-	if (!isSliding): tween.parallel().tween_property($Camera3D/holdingThing, "rotation:z", input_dir.x * -deg_to_rad(9.5) * (-1 if isWallRunning else 1), 0.5)
-	tween.parallel().tween_property($Camera3D/holdingThing, "position:z", (0.15 if input_dir.y == 1 else 0.0), 0.5)
+	var cameraHold = get_node("Camera3D/holdingThing")
+	tween.parallel().tween_property(cameraHold, "position:y", sin(headbobTimer) * 0.02 + -0.23 + (0.0 if velocity.y < 0 else -0.025) + (0.0 if velocity.y > 0 else 0.025), 0.7)
+	if (!isSliding): tween.parallel().tween_property(cameraHold, "rotation:z", input_dir.x * -deg_to_rad(9.5) * (-1 if isWallRunning else 1), 0.5)
+	tween.parallel().tween_property(cameraHold, "position:z", (0.15 if input_dir.y == 1 else 0.0), 0.5)
 func headbob(delta):
 	if (velocity.x + velocity.z != 0):
 		headbobTimer += delta * headbobSpeed

@@ -1,9 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://bpscq30546s0b"]
+[gd_scene load_steps=8 format=3 uid="uid://bpscq30546s0b"]
 
 [ext_resource type="Script" uid="uid://bgrtle34v1pvj" path="res://player/player.gd" id="1_oul6g"]
 [ext_resource type="Shader" path="res://player/pixelshader.gdshader" id="2_rkbax"]
-[ext_resource type="Texture2D" uid="uid://bj3xvaw17w3r4" path="res://materials/models/Material.001_baseColor.png" id="3_g1dw6"]
-[ext_resource type="ArrayMesh" uid="uid://b2gehkale1njv" path="res://materials/models/shark.mesh" id="4_yw30f"]
 [ext_resource type="PackedScene" uid="uid://ds6yutkxgcsnr" path="res://player/weapons/shotgun/shotgun.tscn" id="5_qjkh3"]
 [ext_resource type="Texture2D" uid="uid://cxyo7e2mbfyo6" path="res://player/shotgunCrosshair.png" id="6_g6k8r"]
 [ext_resource type="Texture2D" uid="uid://du6h7ge2hs62y" path="res://player/defaultCrosshair.png" id="7_boad6"]
@@ -15,9 +13,6 @@ shader = ExtResource("2_rkbax")
 shader_parameter/pixel_size = 512
 shader_parameter/overlay = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yw30f"]
-albedo_texture = ExtResource("3_g1dw6")
-
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_oul6g")
 
@@ -26,7 +21,17 @@ shape = SubResource("CapsuleShape3D_rkbax")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+cull_mask = 1048571
 current = true
+
+[node name="holdingThing" type="Node3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.351, -0.20655, 0)
+
+[node name="Shotgun" parent="Camera3D/holdingThing" instance=ExtResource("5_qjkh3")]
+
+[node name="TextureRect" type="TextureRect" parent="Camera3D"]
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="pixelfilter" type="ColorRect" parent="Camera3D"]
 material = SubResource("ShaderMaterial_g1dw6")
@@ -42,19 +47,6 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 text = "fov:"
-
-[node name="holdingThing" type="Node3D" parent="Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.351, -0.23, 0)
-
-[node name="Blahaj" type="MeshInstance3D" parent="Camera3D/holdingThing"]
-transform = Transform3D(-8.74228e-10, 0, -0.02, 0, 0.02, 0, 0.02, 0, -8.74228e-10, 0, 0, 0)
-visible = false
-material_override = SubResource("StandardMaterial3D_yw30f")
-cast_shadow = 0
-mesh = ExtResource("4_yw30f")
-skeleton = NodePath("../../..")
-
-[node name="Shotgun" parent="Camera3D/holdingThing" instance=ExtResource("5_qjkh3")]
 
 [node name="raycastleft" type="RayCast3D" parent="."]
 target_position = Vector3(-0.55, 0, 0)
