@@ -1,7 +1,7 @@
 extends Node3D
 
 var stapleProjectile = preload("res://player/weapons/shotgun/shotgunbullet.tscn")
-var spread = 0.025/12
+var spread = 0.025/15
 const COOLDOWN : float = 1
 var cooldownTimer : float = 0;
 var bulletAmount : int = 24

@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://bpscq30546s0b"]
 
 [ext_resource type="Script" uid="uid://bgrtle34v1pvj" path="res://player/player.gd" id="1_oul6g"]
+[ext_resource type="PackedScene" uid="uid://ds6yutkxgcsnr" path="res://player/weapons/shotgun/shotgun.tscn" id="2_qjkh3"]
 [ext_resource type="Shader" path="res://player/pixelshader.gdshader" id="2_rkbax"]
-[ext_resource type="PackedScene" uid="uid://ds6yutkxgcsnr" path="res://player/weapons/shotgun/shotgun.tscn" id="5_qjkh3"]
 [ext_resource type="Texture2D" uid="uid://cxyo7e2mbfyo6" path="res://player/shotgunCrosshair.png" id="6_g6k8r"]
 [ext_resource type="Texture2D" uid="uid://du6h7ge2hs62y" path="res://player/defaultCrosshair.png" id="7_boad6"]
 
@@ -27,7 +27,7 @@ current = true
 [node name="holdingThing" type="Node3D" parent="Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.351, -0.20655, 0)
 
-[node name="Shotgun" parent="Camera3D/holdingThing" instance=ExtResource("5_qjkh3")]
+[node name="Shotgun" parent="Camera3D/holdingThing" instance=ExtResource("2_qjkh3")]
 
 [node name="TextureRect" type="TextureRect" parent="Camera3D"]
 offset_right = 40.0
@@ -62,10 +62,10 @@ offset_right = 1920.0
 offset_bottom = 1080.0
 
 [node name="TextureRect" type="TextureRect" parent="CenterContainer"]
+visible = false
 layout_mode = 2
 texture = ExtResource("6_g6k8r")
 
 [node name="TextureRect2" type="TextureRect" parent="CenterContainer"]
-visible = false
 layout_mode = 2
 texture = ExtResource("7_boad6")

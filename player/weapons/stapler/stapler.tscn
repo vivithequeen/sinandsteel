@@ -180,4 +180,4 @@ skeleton = NodePath("")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0391603, 0.101945, -0.737431)
 
 [node name="dist" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0391603, 0.101945, -1.0924)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0525125, 0.106952, -1.0924)

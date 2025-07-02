@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://c247wvm15w4k1"]
+
+[ext_resource type="Script" uid="uid://dt3y2xwbftgui" path="res://entities/button.gd" id="1_ck3ch"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3jhqk"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3jhqk"]
+material = SubResource("StandardMaterial3D_3jhqk")
+top_radius = 0.75
+bottom_radius = 0.75
+height = 0.2
+radial_segments = 12
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ck3ch"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_we303"]
+material = SubResource("StandardMaterial3D_ck3ch")
+top_radius = 0.6
+bottom_radius = 0.6
+height = 0.1
+radial_segments = 12
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3jhqk"]
+size = Vector3(1.5, 0.75, 1.5)
+
+[node name="button" type="Node3D"]
+script = ExtResource("1_ck3ch")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_3jhqk")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+mesh = SubResource("CylinderMesh_we303")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.375, 0)
+shape = SubResource("BoxShape3D_3jhqk")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

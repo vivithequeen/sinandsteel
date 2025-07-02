@@ -4,7 +4,7 @@ var startPos : Vector3
 var moveDirection : Vector3
 var startRotation : Vector3
 
-const SPEED : float = 1;#1
+const SPEED : float = 0.85;#1
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	global_position = startPos
@@ -18,9 +18,9 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_area_3d_body_entered(body:Node3D) -> void:
-	if body is StaticBody3D:
+	#if body is StaticBody3D:
 		
-		queue_free()
+	queue_free()
 
 
 

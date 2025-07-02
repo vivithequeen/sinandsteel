@@ -1,13 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://n05n3xtyn7mp"]
+[gd_scene load_steps=7 format=3 uid="uid://n05n3xtyn7mp"]
 
 [ext_resource type="Texture2D" uid="uid://c0pnsdu3l5irf" path="res://materials/materials/arrow.png" id="1_5x06x"]
 [ext_resource type="Script" uid="uid://cqfq288v85m3d" path="res://entities/jump_pad.gd" id="1_vi0f8"]
+[ext_resource type="Material" uid="uid://cvl4jifhtll3c" path="res://textures/steel2.tres" id="2_byu3c"]
+[ext_resource type="ArrayMesh" uid="uid://dafnoqsyiaxns" path="res://materials/models/arrow.obj" id="4_5snc8"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_bdn0x"]
+material = ExtResource("2_byu3c")
 top_radius = 1.0
 bottom_radius = 1.0
 height = 0.2
-radial_segments = 16
+radial_segments = 8
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_byu3c"]
 size = Vector3(2, 2.5, 2)
@@ -29,5 +32,11 @@ texture = ExtResource("1_5x06x")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
 shape = SubResource("BoxShape3D_byu3c")
+
+[node name="Arrow" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0.25, 0)
+visible = false
+material_override = ExtResource("2_byu3c")
+mesh = ExtResource("4_5snc8")
 
 [connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

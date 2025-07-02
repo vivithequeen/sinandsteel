@@ -4,6 +4,16 @@
 [ext_resource type="AudioStream" uid="uid://cn8veppefrfln" path="res://player/weapons/shotgun/fire_test.mp3" id="2_7lt0l"]
 [ext_resource type="AudioStream" uid="uid://df3h8mc3gbven" path="res://player/weapons/shotgun/cocking_test.mp3" id="3_3cedt"]
 
+[sub_resource type="Animation" id="Animation_7lt0l"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("shotgun")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
+
 [sub_resource type="Animation" id="Animation_vuc10"]
 resource_name = "fire"
 length = 0.25
@@ -43,16 +53,6 @@ tracks/2/keys = {
 "method": &"play"
 }]
 }
-
-[sub_resource type="Animation" id="Animation_7lt0l"]
-length = 0.001
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("shotgun")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3cedt"]
 _data = {
@@ -122,7 +122,7 @@ libraries = {
 [node name="shotgun" type="Node3D" parent="."]
 
 [node name="Plane2" type="MeshInstance3D" parent="shotgun"]
-transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -0.129888, -0.256832, 0.620819)
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -0.129888, -0.46566, 0.620819)
 layers = 5
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_vuc10")
