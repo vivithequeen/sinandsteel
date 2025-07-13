@@ -229,10 +229,9 @@ func handle_dash(delta: float,input_dir):
 		if (velocity * Vector3(1, 0, 1)):
 			dashDirection = Vector2(velocity.normalized().x,velocity.normalized().z) * Vector2(1,1)
 		else:
-			var direction = (transform.basis * Vector3(1, 0, 0)).normalized()
-			velocity.x+=direction.x
-			velocity.z+=direction.z
-			dashDirection = Vector2(velocity.normalized().x,velocity.normalized().z) * Vector2(1,1)
+			var direction = (transform.basis * Vector3(0, 0, -1)).normalized()
+
+			dashDirection = Vector2(direction.normalized().x,direction.normalized().z) * Vector2(1,1)
 		isPlumeting = false;
 		current_amount_of_dashes -= 1;
 		velocity.y = 0;

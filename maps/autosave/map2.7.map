@@ -2,7 +2,7 @@
 // Format: Standard
 // entity 0
 {
-"_tb_textures" "textures;textures/Big 32x32 Tileset/Separated Sprites/Machinery (Airconditioners);textures/Big 32x32 Tileset/Separated Sprites/Walls of everykind;textures/Big 32x32 Tileset/Separated Sprites/Windows"
+"_tb_textures" "textures"
 "classname" "worldspawn"
 // brush 0
 {
@@ -871,12 +871,12 @@
 }
 // brush 97
 {
-( 448 64 416 ) ( 400 128 416 ) ( 400 128 544 ) orenge 0 0 0 1 1
-( 400 64 272 ) ( 400 64 273 ) ( 401 64 272 ) orenge -16 0 0 1 1
-( 400 64 272 ) ( 401 64 272 ) ( 400 65 272 ) orenge -16 0 0 1 1
-( 592 128 416 ) ( 592 129 416 ) ( 593 128 416 ) orenge -16 0 0 1 1
-( 592 128 288 ) ( 593 128 288 ) ( 592 128 289 ) orenge -16 0 0 1 1
-( 592 128 288 ) ( 592 128 289 ) ( 592 129 288 ) orenge 0 0 0 1 1
+( 448 64 416 ) ( 400 128 416 ) ( 400 128 544 ) orenge 0 0 360 1 1
+( 400 64 272 ) ( 400 64 273 ) ( 401 64 272 ) orenge 0 0 360 1 1
+( 400 64 272 ) ( 401 64 272 ) ( 400 65 272 ) orenge 0 0 360 1 1
+( 592 128 416 ) ( 592 129 416 ) ( 593 128 416 ) orenge 0 0 360 1 1
+( 592 128 288 ) ( 593 128 288 ) ( 592 128 289 ) orenge 0 0 360 1 1
+( 592 128 288 ) ( 592 128 289 ) ( 592 129 288 ) orenge 0 0 360 1 1
 }
 // brush 98
 {

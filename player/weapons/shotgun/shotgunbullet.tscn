@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://b33sa15udtlo2"]
+[gd_scene load_steps=6 format=3 uid="uid://b33sa15udtlo2"]
 
 [ext_resource type="Script" uid="uid://dbrmxaeejc2xq" path="res://player/weapons/shotgun/shotgunbullet.gd" id="1_gs5i8"]
+[ext_resource type="Texture2D" uid="uid://cepd3uy76luru" path="res://player/weapons/shotgun/bullet.png" id="2_lbcep"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gs5i8"]
 emission_enabled = true
@@ -24,8 +25,15 @@ transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+visible = false
 mesh = SubResource("CylinderMesh_lbcep")
 skeleton = NodePath("../..")
+
+[node name="Sprite3D" type="Sprite3D" parent="Node3D"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0.00634384, 0.0102599, -0.00259638)
+billboard = 2
+texture_filter = 2
+texture = ExtResource("2_lbcep")
 
 [node name="Area3D" type="Area3D" parent="."]
 

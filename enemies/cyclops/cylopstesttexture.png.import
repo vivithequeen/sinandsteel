@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://4uvrpw7m7hrl"
-path.s3tc="res://.godot/imported/texture_01.jpg-907df892ad2df43fe80c0eeaf0d101ad.s3tc.ctex"
+uid="uid://bmwug2maehkf0"
+path.s3tc="res://.godot/imported/cylopstesttexture.png-a9a795ff8f979e35becb0b793e9861e6.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://textures/texture_01.jpg"
-dest_files=["res://.godot/imported/texture_01.jpg-907df892ad2df43fe80c0eeaf0d101ad.s3tc.ctex"]
+source_file="res://enemies/cyclops/cylopstesttexture.png"
+dest_files=["res://.godot/imported/cylopstesttexture.png-a9a795ff8f979e35becb0b793e9861e6.s3tc.ctex"]
 
 [params]
 

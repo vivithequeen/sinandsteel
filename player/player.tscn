@@ -43,6 +43,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Label" type="Label" parent="Camera3D/temp_ui"]
+visible = false
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
@@ -62,10 +63,10 @@ offset_right = 1920.0
 offset_bottom = 1080.0
 
 [node name="TextureRect" type="TextureRect" parent="CenterContainer"]
-visible = false
 layout_mode = 2
 texture = ExtResource("6_g6k8r")
 
 [node name="TextureRect2" type="TextureRect" parent="CenterContainer"]
+visible = false
 layout_mode = 2
 texture = ExtResource("7_boad6")
